@@ -1,0 +1,24 @@
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    store_id VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(255),
+    password VARCHAR(255) NOT NULL,
+    store_name VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+CREATE TABLE products (
+    sn INT AUTO_INCREMENT PRIMARY KEY,
+    store_id VARCHAR(50) NOT NULL,
+    product_name VARCHAR(100) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    description TEXT,
+    buy_price DECIMAL(10,2) NOT NULL,
+    sell_price DECIMAL(10,2) NOT NULL,
+    quantity INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (store_id) REFERENCES users(store_id) ON DELETE CASCADE
+);
