@@ -7,17 +7,14 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['store_id'])) {
     exit();
 }
 $store_id = $_SESSION['store_id'];
-
-
 ?>
-
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Product Dashboard</title>
+  <title><?= htmlspecialchars($_SESSION['store_name']); ?> Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
@@ -25,6 +22,7 @@ $store_id = $_SESSION['store_id'];
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
    <style>
+
 
      .nav-icon { font-size: 1.8rem; }
     .navbar-brand small { font-size: 0.75rem; font-weight: 500; margin-top: -6px; }
@@ -63,7 +61,6 @@ $store_id = $_SESSION['store_id'];
   .navbar-nav .nav-item {
     margin-left: 10px;
   }
-
 
 
 </style>
@@ -389,7 +386,12 @@ $store_id = $_SESSION['store_id'];
 
 
 
-
+<!-- Footer fixed bottom -->
+<footer class="footer mt-auto py-3 fixed-bottom" style="background-color: #DDEB9D; color: white;">
+  <div class="container">
+    <span class="text-muted">&copy; 2025 Astra Softwares</span>
+  </div>
+</footer>
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -403,7 +405,6 @@ $store_id = $_SESSION['store_id'];
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   const toasts = document.querySelectorAll('.toast');
   toasts.forEach(toastEl => {
@@ -421,6 +422,8 @@ $store_id = $_SESSION['store_id'];
       language: {
         emptyTable: "No products available. Click '+ Add Product' to get started."
       },
+      lengthMenu: [5, 10, 25, 50, 100],
+      pageLength: 10,
       responsive: true
     });
   });
