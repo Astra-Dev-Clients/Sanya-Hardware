@@ -49,7 +49,7 @@ CREATE TABLE products (
 
 
 
-
+-- 
 CREATE TABLE sales (
     id INT AUTO_INCREMENT PRIMARY KEY,
     store_id VARCHAR(100) NOT NULL,
@@ -57,14 +57,14 @@ CREATE TABLE sales (
     total_amount DECIMAL(10,2) NOT NULL,
     amount_paid DECIMAL(10,2) NOT NULL,
     change_given DECIMAL(10,2) NOT NULL,
-    payment_method ENUM('Cash', 'Mpesa', 'Card', 'Other') DEFAULT 'Cash',
+    payment_method ENUM('Cash', 'Mpesa', 'Card') DEFAULT 'Cash',
     sale_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (store_id) REFERENCES users(store_id) ON DELETE CASCADE,
     FOREIGN KEY (assistant_id) REFERENCES assistants(id) ON DELETE SET NULL
 );
 
 
-
+-- 
 CREATE TABLE sale_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     sale_id INT NOT NULL,

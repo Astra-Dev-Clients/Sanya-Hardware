@@ -54,8 +54,18 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
       font-size: 0.95rem;
     }
 
-    .btn-primary {
-      background-color: #007BFF;
+    .btn-primary-1 {
+     background-color: #143D60;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .btn-primary-1:hover {
+      background-color: #0f2a40;
+      color: white;
     }
 
     .form-select, .form-control {
@@ -68,8 +78,79 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
       padding-right: 2rem;
     }
   </style>
+
+
+   <style>
+
+
+     .nav-icon { font-size: 1.8rem; }
+    .navbar-brand small { font-size: 0.75rem; font-weight: 500; margin-top: -6px; }
+    .nav-link { display: flex; flex-direction: column; align-items: center; padding: 0.5rem 0.75rem; }
+    .nav-link span { font-size: 0.7rem; }
+
+  .nav-icon-wrapper {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-right: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+  }
+
+  .nav-link:hover .nav-icon-wrapper {
+    background-color: #ffffff33;
+  }
+
+  .nav-icon {
+    font-size: 18px;
+    color: white;
+  }
+
+  .navbar-nav .nav-item {
+    margin-left: 10px;
+  }
+
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    background-color: #fff;
+  }
+
+
+  .btn-lg {
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+</style>
 </head>
 <body class="bg-light">
+
+
 
 <!-- Toast Container -->
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
@@ -84,19 +165,61 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 </div>
 
 
-<!-- Navbar (unstyled as per request) -->
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #143D60;">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #143D60;"> 
   <div class="container">
-    <a class="navbar-brand" href="#"><?= htmlspecialchars($_SESSION['store_name']); ?></a>
+    <a class="navbar-brand d-flex flex-column align-items-start" href="#">
+        <span class="fs-5"><?= htmlspecialchars($_SESSION['store_name']); ?></span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarIcons">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarIcons">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="index.php">
+            <span class="nav-icon-wrapper"><i class="bi bi-house nav-icon"></i></span> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">
+            <span class="nav-icon-wrapper"><i class="bi bi-boxes nav-icon"></i></span> Stock
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">
+            <span class="nav-icon-wrapper"><i class="bi bi-bar-chart-line nav-icon"></i></span> Analytics
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">
+            <span class="nav-icon-wrapper"><i class="bi bi-gear nav-icon"></i></span> Settings
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="../auth/logout.php">
+            <span class="nav-icon-wrapper"><i class="bi bi-box-arrow-right nav-icon"></i></span> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 
+
+
 <div class="container my-4">
-  <div class="card shadow-sm">
+  <div class="card shadow-sm border-0 rounded ">
     <div class="card-body">
       <h4 class="mb-4">Sell Products</h4>
 
-      <form method="POST" action="../backend/process_sale.php" onsubmit="return submitSale()">
+      <form method="POST" action="../backend/process_sale.php" onsubmit="return handlePayment(event)">
+
+       <input type="hidden" name="amount_paid" id="amount_paid">
+        <input type="hidden" name="change_given" id="change_given">
+
         <!-- Product Search & Selection -->
         <div class="row g-3 align-items-end mb-4">
           <div class="col-md-5">
@@ -136,10 +259,10 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
         <div class="row mb-3">
           <div class="col-md-4">
             <label for="quantity" class="form-label">Quantity</label>
-            <input type="number" class="form-control" id="quantity" min="1" >
+            <input type="number" class="form-control" id="quantity" min="1"  placeholder="Enter quantity">
           </div>
           <div class="col-md-2 align-self-end">
-            <button type="button" class="btn btn-primary w-100" onclick="addProduct()">Add</button>
+            <button type="button" class="btn btn-lg" style="background-color: #143D60; color: white;" onclick="addProduct()"> <i class="bi bi-plus-circle"></i> Add</button>
           </div>
         </div>
 
@@ -161,20 +284,19 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
           </table>
         </div>
 
-        <!-- Grand Total -->
+        <!-- Total -->
         <div class="mb-4">
-          <h5>Grand Total: <span id="grandTotal">KES 0.00</span></h5>
+          <h5>Total: <span id="grandTotal">KES 0.00</span></h5>
         </div>
 
         <!-- Payment Method -->
-        <div class="mb-4">
+        <div class="mb-4 select col-md-4">
           <label for="payment_method" class="form-label">Payment Method</label>
           <select class="form-select" name="payment_method" required>
             <option value="">Select Method</option>
             <option value="Cash">Cash</option>
             <option value="Mpesa">Mpesa</option>
             <option value="Card">Card</option>
-            <option value="Other">Other</option>
           </select>
         </div>
 
@@ -183,14 +305,56 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
         <input type="hidden" name="grand_total" id="grandTotalInput">
 
         <div class="text-end">
-          <button type="submit" class="btn btn-success px-4">Submit Sale</button>
+          <button type="submit" class="btn btn-primary-1 px-4"><i class="bi bi-cart-plus"></i>  Make Sale</button>
         </div>
       </form>
     </div>
   </div>
 </div>
 
+
+
+<!-- Cash Payment Modal -->
+<div class="modal fade" id="cashModal" tabindex="-1" aria-labelledby="cashModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <form id="cashPaymentForm" onsubmit="return submitSale()" method="POST" action="../backend/process_sale.php">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cash Payment</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="amountPaid" class="form-label">Amount Paid (Ksh)</label>
+            <input type="number" step="0.01" class="form-control" id="amountPaid" name="amount_paid" required>
+          </div>
+          <div class="mb-3">
+            <label for="changeGiven" class="form-label">Change Given (Ksh)</label>
+            <input type="number" step="0.01" class="form-control" id="changeGiven" name="change_given" readonly>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="confirmCashPayment" class="btn btn-success">Complete Payment</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 <!-- JavaScript Section -->
+<script>
+  // check if quantity is entered
+  document.getElementById('quantity').addEventListener('input', function() {
+    const quantity = parseInt(this.value);
+    if (isNaN(quantity) || quantity < 1) {
+      this.value = '';
+      showToast("Please enter a valid quantity.", "danger");
+    }
+  });
+</script>
+
+
 <script>
   const products = <?= json_encode($products) ?>;
   let saleItems = [];
@@ -202,7 +366,7 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
     const quantity = parseInt(quantityInput.value);
 
     if (!productId || isNaN(quantity) || quantity < 1) {
-      showToast("Please select a product and enter a valid quantity.", "warning");
+      showToast("Please select a product and enter a valid quantity.", "danger");
       return;
     }
 
@@ -212,12 +376,12 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
     const stock = parseInt(selectedOption.getAttribute('data-stock'));
 
     if (stock === 0) {
-      showToast("This product is out of stock.", "warning");
+      showToast("This product is out of stock.", "danger");
       return;
     }
 
     if (quantity > stock) {
-      showToast(`Only ${stock} item(s) available.`, "warning");
+      showToast(`Only ${stock} item(s) available.`, "danger");
       return;
     }
 
@@ -276,7 +440,7 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 
   function submitSale() {
     if (saleItems.length === 0) {
-      showToast("Please add products before submitting.,",  "warning");
+      showToast("Please add products before submitting.", "danger");
       return false;
     }
     document.getElementById('salesData').value = JSON.stringify(saleItems);
@@ -328,6 +492,80 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
   }
   
 </script>
+
+<script>
+  // Prevent default form submission and show cash modal if selected
+  function handlePayment(event) {
+    event.preventDefault();
+
+    if (saleItems.length === 0) {
+      showToast("Please add products before submitting.", "danger");
+      return false;
+    }
+
+    const method = document.querySelector('[name="payment_method"]').value;
+    const grandTotal = parseFloat(document.getElementById("grandTotal").innerText.replace("KES", "").trim());
+    document.getElementById("salesData").value = JSON.stringify(saleItems);
+
+    if (method === "Cash") {
+      const modal = new bootstrap.Modal(document.getElementById("cashModal"));
+      modal.show();
+      document.getElementById("amountPaid").value = "";
+      document.getElementById("changeGiven").value = "";
+      return false;
+    }
+
+    // For other payment methods, submit directly
+    event.target.submit();
+  }
+
+  // Calculate change on cash input
+  document.getElementById("amountPaid").addEventListener("input", function () {
+    const amountPaid = parseFloat(this.value);
+    const grandTotal = parseFloat(document.getElementById("grandTotal").innerText.replace("KES", "").trim());
+
+    const change = amountPaid - grandTotal;
+    document.getElementById("changeGiven").value = change >= 0 ? change.toFixed(2) : "0.00";
+  });
+
+
+  // Confirm cash and submit
+    document.getElementById("confirmCashPayment").addEventListener("click", function () {
+      const amountPaid = parseFloat(document.getElementById("amountPaid").value);
+      const grandTotal = parseFloat(document.getElementById("grandTotal").innerText.replace("KES", "").trim());
+
+      if (isNaN(amountPaid) || amountPaid < grandTotal) {
+        showToast("Amount paid is less than total. Please enter correct amount.", "danger");
+        return;
+      }
+
+      // Set the hidden inputs
+      document.getElementById("amount_paid").value = amountPaid.toFixed(2);
+      document.getElementById("change_given").value = (amountPaid - grandTotal).toFixed(2);
+      document.getElementById("salesData").value = JSON.stringify(saleItems);
+
+      const modal = bootstrap.Modal.getInstance(document.getElementById("cashModal"));
+      modal.hide();
+
+      // Submit the form
+      document.querySelector("form").submit();
+    });
+
+
+    // Set hidden inputs and submit
+    document.getElementById("amountPaidInput").value = amountPaid.toFixed(2);
+    document.getElementById("changeGivenInput").value = (amountPaid - grandTotal).toFixed(2);
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById("cashModal"));
+    modal.hide();
+
+    // Submit the form
+    document.querySelector("form").submit();
+ 
+</script>
+
+
+
 
 </body>
 </html>

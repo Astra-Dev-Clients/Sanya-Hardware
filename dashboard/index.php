@@ -15,11 +15,103 @@ $store_id = $_SESSION['store_id'];
 <head>
   <meta charset="UTF-8">
   <title><?= htmlspecialchars($_SESSION['store_name']); ?> Dashboard</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
-  <!-- boostrap icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- DataTables Buttons -->
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+
+
+
+<script>
+  $(document).ready(function () {
+    $('#productTable').DataTable({
+      dom: "<'row mb-3'<'col-sm-6'l><'col-sm-6 text-end'B>>" +
+           "<'row mb-2'<'col-sm-12'f>>" +
+           "<'row'<'col-sm-12'tr>>" +
+           "<'row mt-3'<'col-sm-5'i><'col-sm-7'p>>",
+      buttons: [
+        {
+          extend: 'copyHtml5',
+          text: '<i class="bi bi-clipboard"></i> Copy',
+          className: 'btn btn-sm btn-outline-dark bg-light text-dark rounded me-1'
+        },
+        {
+          extend: 'excelHtml5',
+          text: '<i class="bi bi-file-earmark-excel"></i> Excel',
+          className: 'btn btn-sm btn-success rounded me-1'
+        },
+        {
+          extend: 'csvHtml5',
+          text: '<i class="bi bi-file-earmark-text"></i> CSV',
+          className: 'btn btn-sm btn-dark rounded me-1'
+        },
+        {
+          extend: 'pdfHtml5',
+          text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
+          className: 'btn btn-sm btn-danger rounded me-1',
+          orientation: 'landscape',
+          pageSize: 'A4',
+          customize: function (doc) {
+            doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+            doc.content[1].table.headerRows = 1;
+            doc.content[1].table.body.forEach(function (row, index) {
+              if (index === 0) {
+                row.forEach(function (cell) {
+                  cell.fillColor = '#143D60';
+                  cell.color = 'white';
+                });
+              }
+            });
+          }
+        },
+        {
+          extend: 'print',
+          text: '<i class="bi bi-printer"></i> Print',
+          className: 'btn btn-sm btn-secondary rounded me-1'
+        }
+      ],
+      language: {
+        emptyTable: "No products available. Click '+ Add Product' to get started.",
+        search: "Search:"
+      },
+      lengthMenu: [
+        [5, 10, 25, 50, 100, -1],
+        [5, 10, 25, 50, 100, "All"]
+      ],
+      pageLength: 10,
+      responsive: true
+    });
+  });
+</script>
+
+
+
 
    <style>
 
@@ -97,8 +189,8 @@ $store_id = $_SESSION['store_id'];
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #143D60;"> 
   <div class="container">
-    <a class="navbar-brand d-flex flex-column align-items-start" href="#">
-        <span class="fs-5"><?= htmlspecialchars($_SESSION['store_name']); ?></span>
+    <a class="navbar-brand d-flex  align-items-start" href="#">
+      <i class="bi bi-wrench-adjustable-circle me-2"></i>  <span class="fs-5 fw-bold"><?= htmlspecialchars($_SESSION['store_name']); ?></span>
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarIcons">
@@ -108,13 +200,13 @@ $store_id = $_SESSION['store_id'];
     <div class="collapse navbar-collapse justify-content-end" id="navbarIcons">
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">
+          <a class="nav-link text-white" href="index.php">
             <span class="nav-icon-wrapper"><i class="bi bi-house nav-icon"></i></span> Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">
-            <span class="nav-icon-wrapper"><i class="bi bi-people nav-icon"></i></span> Members
+          <a class="nav-link text-white" href="sell.php">
+            <span class="nav-icon-wrapper"><i class="bi bi-cart nav-icon"></i></span> Make Sales
           </a>
         </li>
         <li class="nav-item">
@@ -143,11 +235,11 @@ $store_id = $_SESSION['store_id'];
 
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Product Inventory</h2>
+    <h2 class="fw-bold">Product Inventory</h2>
     <button class="btn" style="background-color: #143D60; color: white;" data-bs-toggle="modal" data-bs-target="#addProductModal"> <i class="bi bi-plus-circle"></i> Add Product</button>
   </div>
 
-  <table id="productTable" class="table table-striped table-bordered">
+  <table id="productTable" class="table table-striped table-bordered text-center">
     <thead class="table-dark">
       <tr>
         <th>SN</th>
@@ -224,39 +316,50 @@ $store_id = $_SESSION['store_id'];
 
 <!-- Add Product Modal -->
 <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form action="../backend/add_product.php" method="POST" class="modal-content">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <form action="../backend/add_product.php" method="POST" class="modal-content p-3">
       <div class="modal-header">
-        <h5 class="modal-title">Add New Product</h5>
+        <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
       <div class="modal-body">
-        <div class="mb-3">
-          <label class="form-label">Product Name</label>
-          <input type="text" name="product_name" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Category</label>
-          <input type="text" name="category" class="form-control">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Description</label>
-          <textarea name="description" class="form-control"></textarea>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Buying Price</label>
-          <input type="number" name="buying_price" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Selling Price</label>
-          <input type="number" name="selling_price" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Quantity</label>
-          <input type="number" name="quantity" class="form-control" required>
+        <div class="container">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Product Name <span class="text-danger">*</span></label>
+              <input type="text" name="product_name" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Category</label>
+              <input type="text" name="category" class="form-control">
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label">Description</label>
+              <textarea name="description" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Buying Price <span class="text-danger">*</span></label>
+              <input type="number" name="buying_price" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Selling Price <span class="text-danger">*</span></label>
+              <input type="number" name="selling_price" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Quantity <span class="text-danger">*</span></label>
+              <input type="number" name="quantity" class="form-control" required>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
+
+      <div class="modal-footer d-flex justify-content-between">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         <button class="btn btn-primary" type="submit">Save Product</button>
       </div>
@@ -270,7 +373,7 @@ $store_id = $_SESSION['store_id'];
   <div class="modal-dialog modal-lg"> <!-- Wider modal -->
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">View Product</h5>
+        <h5 class="modal-title">About <span id="view_product_name_display"></span></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
@@ -310,11 +413,11 @@ $store_id = $_SESSION['store_id'];
 
 <!-- Edit Product Modal -->
 <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <form id="editProductForm" action="../backend/edit_product.php" method="POST">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit Product</h5>
+          <h5 class="modal-title">Editing  <span id="edit_product_name_display"></span></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -364,7 +467,7 @@ $store_id = $_SESSION['store_id'];
 
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-sm">
     <form method="POST" action="../backend/delete_product.php">
       <div class="modal-content">
         <div class="modal-header">
@@ -394,17 +497,8 @@ $store_id = $_SESSION['store_id'];
 </footer>
 
 <!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
 <script>
   const toasts = document.querySelectorAll('.toast');
   toasts.forEach(toastEl => {
@@ -414,20 +508,7 @@ $store_id = $_SESSION['store_id'];
 </script>
 
 
-<script>
-  $(document).ready(function () {
-    $('#productTable').DataTable({
-      dom: 'Bfrtip',
-      buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
-      language: {
-        emptyTable: "No products available. Click '+ Add Product' to get started."
-      },
-      lengthMenu: [5, 10, 25, 50, 100],
-      pageLength: 10,
-      responsive: true
-    });
-  });
-</script>
+
 
 <script>
 function viewProduct(button) {
@@ -437,6 +518,8 @@ function viewProduct(button) {
   document.getElementById('view_buying').value = button.dataset.buy_price;
   document.getElementById('view_selling').value = button.dataset.sell_price;
   document.getElementById('view_quantity').value = button.dataset.quantity;
+  document.getElementById('view_product_name_display').textContent = button.dataset.name;
+
 }
 
 
@@ -451,6 +534,7 @@ function editProduct(button) {
   document.getElementById('edit_buy_price').value = button.dataset.buy_price;
   document.getElementById('edit_sell_price').value = button.dataset.sell_price;
   document.getElementById('edit_quantity').value = button.dataset.quantity;
+  document.getElementById('edit_product_name_display').textContent = button.dataset.name;
 }
 
 
