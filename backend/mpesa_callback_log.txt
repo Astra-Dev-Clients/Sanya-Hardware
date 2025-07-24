@@ -1,0 +1,30 @@
+2025-07-24 14:06:26
+{"Body":{"stkCallback":{"MerchantRequestID":"867d-4ca2-8511-38a4b762b49c12018","CheckoutRequestID":"ws_CO_240720251506165727405667","ResultCode":1032,"ResultDesc":"Request Cancelled by user"}}}
+
+2025-07-24 14:14:43
+{"Body":{"stkCallback":{"MerchantRequestID":"5353-43f9-bd76-d52b76ba508554411","CheckoutRequestID":"ws_CO_240720251514167727405667","ResultCode":1037,"ResultDesc":"No response from user"}}}
+
+2025-07-24 17:11:17
+{"Body":{"stkCallback":{"MerchantRequestID":"8522-4a83-8da4-fcd45c2a96393797","CheckoutRequestID":"ws_CO_240720251811011727405667","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-24 18:12:35
+{"Body":{"stkCallback":{"MerchantRequestID":"8522-4a83-8da4-fcd45c2a96394354","CheckoutRequestID":"ws_CO_240720251912190727405667","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-24 18:28:23
+{"Body":{"stkCallback":{"MerchantRequestID":"8522-4a83-8da4-fcd45c2a96394518","CheckoutRequestID":"ws_CO_240720251927569727405667","ResultCode":1037,"ResultDesc":"No response from user"}}}
+
+2025-07-24 18:37:59
+{"Body":{"stkCallback":{"MerchantRequestID":"5353-43f9-bd76-d52b76ba508558015","CheckoutRequestID":"ws_CO_240720251937401727405667","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-24 18:38:49
+{"Body":{"stkCallback":{"MerchantRequestID":"5353-43f9-bd76-d52b76ba508558021","CheckoutRequestID":"ws_CO_240720251938331726298561","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-24 18:42:10
+{"Body":{"stkCallback":{"MerchantRequestID":"8522-4a83-8da4-fcd45c2a96394625","CheckoutRequestID":"ws_CO_240720251941591727405667","ResultCode":1032,"ResultDesc":"Request Cancelled by user"}}}
+
+2025-07-24 18:52:36
+{"Body":{"stkCallback":{"MerchantRequestID":"867d-4ca2-8511-38a4b762b49c15868","CheckoutRequestID":"ws_CO_240720251952095727405667","ResultCode":1037,"ResultDesc":"No response from user"}}}
+
+2025-07-24 18:56:00
+{"Body":{"stkCallback":{"MerchantRequestID":"8264-4c2a-b08f-bf7d272fec9e5","CheckoutRequestID":"ws_CO_240720251955433703571665","ResultCode":1032,"ResultDesc":"Request Cancelled by user"}}}
+

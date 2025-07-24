@@ -552,6 +552,32 @@ function handlePayment(event) {
   event.target.submit();
 }
 
+
+  // Polling function to check payment status
+  function pollPaymentStatus(checkoutId, attempts = 0) {
+    if (attempts > 20) return; // stop after ~20 seconds
+
+    fetch(`../backend/mpesa_status.php?checkout_id=${checkoutId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.status) {
+          setTimeout(() => pollPaymentStatus(checkoutId, attempts + 1), 1000);
+          return;
+        }
+
+        if (data.status === 'success') {
+          showToast("Payment successful. Transaction ID: " + data.receipt, "success");
+          setTimeout(() => location.reload(), 3000);
+        } else if (data.status === 'cancelled') {
+          showToast("Payment was cancelled.", "danger");
+        } else {
+          setTimeout(() => pollPaymentStatus(checkoutId, attempts + 1), 1000);
+        }
+      }).catch(err => console.error(err));
+  }
+
+
+
 // Handle Mpesa Payment Submit
 document.getElementById("mpesaPaymentForm").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -589,6 +615,7 @@ document.getElementById("mpesaPaymentForm").addEventListener("submit", function 
       if (data.success) {
         showToast("STK Push sent! Await user confirmation.", "success");
         bootstrap.Modal.getInstance(document.getElementById("mpesaModal")).hide();
+        pollPaymentStatus(data.checkout_id); // Add this
       } else {
         showToast("Mpesa error: " + data.message, "danger");
       }
