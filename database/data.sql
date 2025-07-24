@@ -58,6 +58,8 @@ CREATE TABLE sales (
     amount_paid DECIMAL(10,2) NOT NULL,
     change_given DECIMAL(10,2) NOT NULL,
     payment_method ENUM('Cash', 'Mpesa', 'Card') DEFAULT 'Cash',
+    mpesa_number VARCHAR(20) DEFAULT NULL,
+    transaction_id VARCHAR(100) DEFAULT NULL,
     sale_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (store_id) REFERENCES users(store_id) ON DELETE CASCADE,
     FOREIGN KEY (assistant_id) REFERENCES assistants(id) ON DELETE SET NULL

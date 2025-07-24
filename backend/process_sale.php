@@ -11,6 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $amount_paid = floatval($_POST['amount_paid'] ?? 0);
     $change_given = floatval($_POST['change_given'] ?? 0);
 
+    // Mpesa specific fields (may be empty if not Mpesa)
+    $mpesa_number = $_POST['mpesa_number'] ?? null;
+    $transaction_id = $_POST['transaction_id'] ?? null;
+
     // Validate ENUM values
     $allowed_methods = ['Cash', 'Mpesa', 'Card', 'Other'];
     if (!in_array($payment_method, $allowed_methods)) {
@@ -22,8 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Insert into sales
-        $stmt = $conn->prepare("INSERT INTO sales (store_id, assistant_id, total_amount, payment_method, amount_paid, change_given) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sidsss", $store_id, $assistant_id, $grand_total, $payment_method, $amount_paid, $change_given);
+        $stmt = $conn->prepare("INSERT INTO sales (store_id, assistant_id, total_amount, payment_method, amount_paid, change_given, mpesa_number, transaction_id) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sidsssss", $store_id, $assistant_id, $grand_total, $payment_method, $amount_paid, $change_given, $mpesa_number, $transaction_id);
         $stmt->execute();
         $sale_id = $stmt->insert_id;
 

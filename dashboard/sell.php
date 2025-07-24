@@ -217,8 +217,10 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 
       <form method="POST" action="../backend/process_sale.php" onsubmit="return handlePayment(event)">
 
-       <input type="hidden" name="amount_paid" id="amount_paid">
+         <input type="hidden" name="amount_paid" id="amount_paid">
         <input type="hidden" name="change_given" id="change_given">
+        <input type="hidden" name="mpesa_number" id="mpesa_number">
+        <input type="hidden" name="transaction_id" id="transaction_id">
 
         <!-- Product Search & Selection -->
         <div class="row g-3 align-items-end mb-4">
@@ -340,6 +342,33 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
     </form>
   </div>
 </div>
+
+
+
+
+<!-- Mpesa Modal -->
+<div class="modal fade" id="mpesaModal" tabindex="-1" aria-labelledby="mpesaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="mpesaPaymentForm" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mpesa Payment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="mpesaNumber" class="form-label">Mpesa Number</label>
+          <input type="text" class="form-control" id="mpesaNumber" name="phone" placeholder="e.g. 254712345678" required>
+        </div>
+        <input type="hidden" id="mpesaTotal" name="amount" value="0.00">
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Confirm Payment</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 
 
 <!-- JavaScript Section -->
@@ -495,29 +524,82 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 
 <script>
   // Prevent default form submission and show cash modal if selected
-  function handlePayment(event) {
-    event.preventDefault();
+function handlePayment(event) {
+  event.preventDefault();
 
-    if (saleItems.length === 0) {
-      showToast("Please add products before submitting.", "danger");
-      return false;
-    }
-
-    const method = document.querySelector('[name="payment_method"]').value;
-    const grandTotal = parseFloat(document.getElementById("grandTotal").innerText.replace("KES", "").trim());
-    document.getElementById("salesData").value = JSON.stringify(saleItems);
-
-    if (method === "Cash") {
-      const modal = new bootstrap.Modal(document.getElementById("cashModal"));
-      modal.show();
-      document.getElementById("amountPaid").value = "";
-      document.getElementById("changeGiven").value = "";
-      return false;
-    }
-
-    // For other payment methods, submit directly
-    event.target.submit();
+  if (saleItems.length === 0) {
+    showToast("Please add products before submitting.", "danger");
+    return false;
   }
+
+  const method = document.querySelector('[name="payment_method"]').value;
+  const grandTotal = parseFloat(document.getElementById("grandTotalInput").value);
+  document.getElementById("salesData").value = JSON.stringify(saleItems);
+
+  if (method === "Cash") {
+    const modal = new bootstrap.Modal(document.getElementById("cashModal"));
+    modal.show();
+    return false;
+  }
+
+  if (method === "Mpesa") {
+    document.getElementById("mpesaTotal").value = grandTotal;
+    const modal = new bootstrap.Modal(document.getElementById("mpesaModal"));
+    modal.show();
+    return false;
+  }
+
+  event.target.submit();
+}
+
+// Handle Mpesa Payment Submit
+document.getElementById("mpesaPaymentForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const phone = document.getElementById("mpesaNumber").value.trim();
+  const amount = parseFloat(document.getElementById("mpesaTotal").value);
+
+  // Log phone and amount
+  console.log("Mpesa Number:", phone);
+  console.log("Mpesa Amount:", amount);
+
+  if (!/^2547\d{8}$/.test(phone)) {
+    showToast("Invalid Mpesa number format. Use 2547XXXXXXXX.", "danger");
+    return;
+  }
+
+  const payload = {
+    mpesa_number: phone,
+    grand_total: amount,
+    sales_data: saleItems
+  };
+
+  // Log payload
+  console.log("Payload:", payload);
+
+  fetch("../backend/mpesa_payment.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        showToast("STK Push sent! Await user confirmation.", "success");
+        bootstrap.Modal.getInstance(document.getElementById("mpesaModal")).hide();
+      } else {
+        showToast("Mpesa error: " + data.message, "danger");
+      }
+    })
+    .catch(error => {
+      console.error("Mpesa error:", error);
+      showToast("Network error: " + error.message, "danger");
+    });
+});
+
+
 
   // Calculate change on cash input
   document.getElementById("amountPaid").addEventListener("input", function () {
@@ -539,10 +621,14 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
         return;
       }
 
+      
+
       // Set the hidden inputs
       document.getElementById("amount_paid").value = amountPaid.toFixed(2);
       document.getElementById("change_given").value = (amountPaid - grandTotal).toFixed(2);
       document.getElementById("salesData").value = JSON.stringify(saleItems);
+
+      
 
       const modal = bootstrap.Modal.getInstance(document.getElementById("cashModal"));
       modal.hide();
@@ -563,6 +649,10 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
     document.querySelector("form").submit();
  
 </script>
+
+
+
+
 
 
 
