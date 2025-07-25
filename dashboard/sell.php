@@ -374,10 +374,6 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 </div>
 
 
-
-
-
-
 <!-- JavaScript Section -->
 <script>
   // check if quantity is entered
@@ -389,12 +385,7 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
     }
   });
 </script>
-
-
 <!-- prevent deafult in all forms -->
-
-
-
 
 
 
