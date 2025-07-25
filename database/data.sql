@@ -6,9 +6,21 @@ USE sanya_store;
 
 
 
+Create table astra(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    astra_id VARCHAR(50) UNIQUE NOT NULL,
+    phone VARCHAR(20) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    pass VARCHAR(255) UNIQUE NOT NULL,
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     store_id VARCHAR(100) UNIQUE NOT NULL,
+    till_number VARCHAR(20) UNIQUE NOT NULL,
+    phone VARCHAR(20) NOT NULL,
     email VARCHAR(255),
     password VARCHAR(255) NOT NULL,
     store_name VARCHAR(255),

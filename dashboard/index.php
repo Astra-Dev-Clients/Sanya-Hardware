@@ -3,7 +3,7 @@ session_start();
 require '../database/db.php';
 
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['store_id'])) {
-    header("Location: ../auth/login.php");
+    header("Location: ../auth/index.php");
     exit();
 }
 $store_id = $_SESSION['store_id'];

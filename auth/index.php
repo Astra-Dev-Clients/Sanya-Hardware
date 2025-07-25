@@ -34,7 +34,7 @@ session_start();
             top: 0; left: 0; right: 0; bottom: 0;
             width: 100vw;
             height: 100vh;
-            background: url('../assets/img/bg/tools.jpg') center center/cover no-repeat;
+            background: url('../assets/img/bg/technology.jpg') center center/cover no-repeat;
             z-index: 0;
         }
         .overlay {
@@ -137,7 +137,7 @@ session_start();
 
     <form action="../backend/process_login.php" method="POST">
         <div class="form-group">
-            <label for="store_id">Store ID</label>
+            <label for="store_id">St ore ID</label>
             <input type="text" id="store_id" name="store_id" required>
         </div>
         <div class="form-group">

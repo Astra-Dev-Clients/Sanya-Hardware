@@ -12,6 +12,7 @@ $items_stmt->bind_param("i", $sale_id);
 $items_stmt->execute();
 $items = $items_stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>

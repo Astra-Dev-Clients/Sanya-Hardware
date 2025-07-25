@@ -48,7 +48,7 @@ $Passkey            = $_ENV['MPESA_PASSKEY'];
 $PartyA             = $phone;
 $AccountReference   = "TestAccount";
 $TransactionDesc    = "Payment";
-$CallbackURL        = "https://94255ac03f34.ngrok-free.app/clients/sanya/backend/mpesa_callback.php";
+$CallbackURL        = "https://de46bf65f49b.ngrok-free.app/clients/sanya/backend/mpesa_callback.php";
 
 // Step 3: Generate access token
 $credentials = base64_encode("$consumerKey:$consumerSecret");

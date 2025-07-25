@@ -45,7 +45,7 @@
               <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="about.html">About</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="blogs.html">Blogs</a></li>
-              <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100" aria-current="page" href="#">Get Started</a></li>
+              <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100" aria-current="page" href="./auth/index.php">Get Started</a></li>
             </ul>
           </div>
         </div>
@@ -60,7 +60,7 @@
               <div class="col-lg-6 text-center text-lg-start">
                 <h1 class="text-white fs-5 fs-xl-6">Your All-in-One Business Management Solution</h1>
                 <p class="text-white py-lg-3 py-2">Effortless sales, real-time Mpesa tracking, and smart inventory control — all in one powerful POS platform built for modern businesses.</p>
-                <div class="d-sm-flex align-items-center gap-3"><button class="btn btn-success text-white mb-3 w-75">Start Selling</button><button class="btn btn-outline-light mb-3 w-75">Explore</button></div>
+                <div class="d-sm-flex align-items-center gap-3"><button class="btn btn-success text-white mb-3 w-75" onclick="window.location='./auth/index.php'">Start Selling</button><button class="btn btn-outline-light mb-3 w-75">Explore</button></div>
               </div>
               <div class="col-lg-6 text-center text-lg-end mt-3 mt-lg-0"><img class="img-fluid" src="assets/img/hero/hero-graphics.png" alt="" /></div>
             </div>
