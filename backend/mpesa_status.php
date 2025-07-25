@@ -14,47 +14,50 @@ if (empty($checkoutId)) {
     exit;
 }
 
-// Helper function to search for a transaction in a file
+// Helper: Search JSON lines in a given file
 function findTransactionInFile($file, $checkoutId) {
     if (!file_exists($file)) return null;
 
     $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
         $data = json_decode($line, true);
-        if ($data && isset($data['CheckoutRequestID']) && $data['CheckoutRequestID'] === $checkoutId) {
+        if (isset($data['CheckoutRequestID']) && $data['CheckoutRequestID'] === $checkoutId) {
             return $data;
         }
     }
     return null;
 }
 
-// Check success first
+// Check in successful transactions first
 $success = findTransactionInFile('payments_success.txt', $checkoutId);
 if ($success) {
     echo json_encode([
         "status" => "success",
         "message" => "Payment received",
-        "receipt" => $success['MpesaReceiptNumber'] ?? '',
-        "amount" => $success['Amount'] ?? '',
-        "phone" => $success['PhoneNumber'] ?? '',
-        "time" => $success['Time'] ?? ''
+        "receipt" => $success['MpesaReceiptNumber'] ?? 'N/A',
+        "amount" => $success['Amount'] ?? 'N/A',
+        "phone" => $success['PhoneNumber'] ?? 'N/A',
+        "time" => $success['Time'] ?? date("Y-m-d H:i:s")
     ]);
+
     exit;
 }
 
-// Then check failed
+
+
+// Then check in failed/cancelled transactions
 $failed = findTransactionInFile('payments_failed.txt', $checkoutId);
 if ($failed) {
     echo json_encode([
         "status" => "cancelled",
         "message" => $failed['ResultDesc'] ?? 'Payment failed or cancelled',
-        "time" => $failed['Time'] ?? ''
+        "time" => $failed['Time'] ?? date("Y-m-d H:i:s")
     ]);
     exit;
 }
 
-// Still pending
+// No match found yet – assume still pending
 echo json_encode([
     "status" => "pending",
-    "message" => "Payment not completed yet"
+    "message" => "Payment not completed yet. Please wait..."
 ]);

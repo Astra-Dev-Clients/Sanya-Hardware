@@ -384,6 +384,13 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 </script>
 
 
+<!-- prevent deafult in all forms -->
+
+
+
+
+
+
 <script>
   const products = <?= json_encode($products) ?>;
   let saleItems = [];
@@ -522,6 +529,9 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
   
 </script>
 
+
+
+
 <script>
   // Prevent default form submission and show cash modal if selected
 function handlePayment(event) {
@@ -554,27 +564,69 @@ function handlePayment(event) {
 
 
   // Polling function to check payment status
-  function pollPaymentStatus(checkoutId, attempts = 0) {
-    if (attempts > 20) return; // stop after ~20 seconds
+ function pollPaymentStatus(checkoutId, attempts = 0) {
+  if (attempts > 20) return;
 
-    fetch(`../backend/mpesa_status.php?checkout_id=${checkoutId}`)
-      .then(res => res.json())
-      .then(data => {
-        if (!data || !data.status) {
-          setTimeout(() => pollPaymentStatus(checkoutId, attempts + 1), 1000);
-          return;
-        }
+  fetch(`../backend/mpesa_status.php?checkout_id=${checkoutId}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data || !data.status) {
+        setTimeout(() => pollPaymentStatus(checkoutId, attempts + 1), 1000);
+        return;
+      }
 
-        if (data.status === 'success') {
-          showToast("Payment successful. Transaction ID: " + data.receipt, "success");
-          setTimeout(() => location.reload(), 3000);
-        } else if (data.status === 'cancelled') {
-          showToast("Payment was cancelled.", "danger");
-        } else {
-          setTimeout(() => pollPaymentStatus(checkoutId, attempts + 1), 1000);
-        }
-      }).catch(err => console.error(err));
-  }
+      if (data.status === 'success') {
+        showToast("Payment successful. Recording sale...", "success");
+
+        // Step 1: Prepare sale payload
+        const payload = new FormData();
+        payload.append("payment_method", "Mpesa");
+        payload.append("sales_data", JSON.stringify(saleItems));
+        payload.append("grand_total", data.amount);
+        payload.append("amount_paid", data.amount);
+        payload.append("change_given", "0.00");
+        payload.append("mpesa_number", data.phone);
+        payload.append("transaction_id", data.receipt);
+        payload.append("transaction_status", "Success");
+
+        // Step 2: Send to process_sale.php
+        fetch("../backend/process_sale.php", {
+          method: "POST",
+          body: payload
+        })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              showToast("Sale recorded successfully ✅", "success");
+
+              // Optional: Clear sale and reset UI
+              saleItems = [];
+              renderTable();
+              calculateGrandTotal();
+              document.getElementById("mpesaNumber").value = "";
+
+              setTimeout(() => location.reload(), 2500);
+            } else {
+              showToast("Database error: " + result.message, "danger");
+            }
+          })
+          .catch(err => {
+            console.error("DB error:", err);
+            showToast("Failed to record sale: " + err.message, "danger");
+          });
+
+      } else if (data.status === 'cancelled') {
+        showToast("Payment was cancelled by user ❌", "danger");
+      } else {
+        setTimeout(() => pollPaymentStatus(checkoutId, attempts + 1), 1000);
+      }
+    })
+    .catch(err => {
+      console.error("Polling error:", err);
+      showToast("Polling failed: " + err.message, "danger");
+    });
+}
+
 
 
 
@@ -639,47 +691,54 @@ document.getElementById("mpesaPaymentForm").addEventListener("submit", function 
 
 
   // Confirm cash and submit
-    document.getElementById("confirmCashPayment").addEventListener("click", function () {
-      const amountPaid = parseFloat(document.getElementById("amountPaid").value);
-      const grandTotal = parseFloat(document.getElementById("grandTotal").innerText.replace("KES", "").trim());
+document.getElementById("confirmCashPayment").addEventListener("click", function () {
+  const amountPaid = parseFloat(document.getElementById("amountPaid").value);
+  const grandTotal = parseFloat(document.getElementById("grandTotal").innerText.replace("KES", "").trim());
 
-      if (isNaN(amountPaid) || amountPaid < grandTotal) {
-        showToast("Amount paid is less than total. Please enter correct amount.", "danger");
-        return;
+  if (isNaN(amountPaid) || amountPaid < grandTotal) {
+    showToast("Amount paid is less than total. Please enter correct amount.", "danger");
+    return;
+  }
+
+  // Prepare form data
+  const formData = new FormData();
+  formData.append("amount_paid", amountPaid.toFixed(2));
+  formData.append("change_given", (amountPaid - grandTotal).toFixed(2));
+  formData.append("payment_method", "Cash");
+  formData.append("grand_total", grandTotal.toFixed(2));
+  formData.append("sales_data", JSON.stringify(saleItems));
+
+  // Hide modal
+  const modal = bootstrap.Modal.getInstance(document.getElementById("cashModal"));
+  modal.hide();
+
+  // Send fetch POST
+  fetch("../backend/process_sale.php", {
+    method: "POST",
+    body: formData
+  })
+    .then(res => res.json())
+    .then(data => {
+      showToast(data.message, data.success ? "success" : "danger");
+
+      if (data.success) {
+        // Reset everything
+        saleItems = [];
+        renderTable();
+        calculateGrandTotal();
+        document.getElementById("amountPaid").value = '';
+        document.getElementById("changeGiven").value = '';
       }
-
-      
-
-      // Set the hidden inputs
-      document.getElementById("amount_paid").value = amountPaid.toFixed(2);
-      document.getElementById("change_given").value = (amountPaid - grandTotal).toFixed(2);
-      document.getElementById("salesData").value = JSON.stringify(saleItems);
-
-      
-
-      const modal = bootstrap.Modal.getInstance(document.getElementById("cashModal"));
-      modal.hide();
-
-      // Submit the form
-      document.querySelector("form").submit();
+    })
+    .catch(err => {
+      console.error("Fetch error:", err);
+      showToast("An error occurred while processing payment.", "danger");
     });
+});
 
 
-    // Set hidden inputs and submit
-    document.getElementById("amountPaidInput").value = amountPaid.toFixed(2);
-    document.getElementById("changeGivenInput").value = (amountPaid - grandTotal).toFixed(2);
 
-    const modal = bootstrap.Modal.getInstance(document.getElementById("cashModal"));
-    modal.hide();
-
-    // Submit the form
-    document.querySelector("form").submit();
- 
 </script>
-
-
-
-
 
 
 
