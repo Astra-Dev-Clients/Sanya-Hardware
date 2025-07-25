@@ -184,8 +184,13 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">
-            <span class="nav-icon-wrapper"><i class="bi bi-boxes nav-icon"></i></span> Stock
+          <a class="nav-link text-white" href="sell.php">
+            <span class="nav-icon-wrapper"><i class="bi bi-cart nav-icon"></i></span> Make Sales
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="transactions.php">
+            <span class="nav-icon-wrapper"><i class="bi bi-boxes nav-icon"></i></span> Transactions
           </a>
         </li>
         <li class="nav-item">
@@ -370,6 +375,13 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 
 
 
+
+<!-- Footer fixed bottom -->
+<footer class="footer mt-auto py-3 fixed-bottom" style="background-color: #edefe4ff; color: white;">
+  <div class="container">
+    <span class="text-muted">&copy; 2025 Astra Softwares</span>
+  </div>
+</footer>
 
 <!-- JavaScript Section -->
 <script>

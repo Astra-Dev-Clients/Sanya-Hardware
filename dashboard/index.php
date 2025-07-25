@@ -210,6 +210,11 @@ $store_id = $_SESSION['store_id'];
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-white" href="transactions.php">
+            <span class="nav-icon-wrapper"><i class="bi bi-boxes nav-icon"></i></span> Transactions
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-white" href="#">
             <span class="nav-icon-wrapper"><i class="bi bi-bar-chart-line nav-icon"></i></span> Analytics
           </a>
@@ -490,7 +495,7 @@ $store_id = $_SESSION['store_id'];
 
 
 <!-- Footer fixed bottom -->
-<footer class="footer mt-auto py-3 fixed-bottom" style="background-color: #DDEB9D; color: white;">
+<footer class="footer">
   <div class="container">
     <span class="text-muted">&copy; 2025 Astra Softwares</span>
   </div>

@@ -32,6 +32,7 @@ if (!isset($input['grand_total']) || !isset($input['mpesa_number'])) {
 $amount = $input['grand_total'];
 $phone = $input['mpesa_number'];
 
+
 // Format phone number
 if (preg_match('/^0/', $phone)) {
     $phone = preg_replace('/^0/', '254', $phone);
