@@ -376,12 +376,7 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 
 
 
-<!-- Footer fixed bottom -->
-<footer class="footer mt-auto py-3 fixed-bottom" style="background-color: #edefe4ff; color: white;">
-  <div class="container">
-    <span class="text-muted">&copy; 2025 Astra Softwares</span>
-  </div>
-</footer>
+
 
 <!-- JavaScript Section -->
 <script>

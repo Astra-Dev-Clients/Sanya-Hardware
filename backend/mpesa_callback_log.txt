@@ -67,3 +67,6 @@
 2025-07-25 03:37:25
 {"Body":{"stkCallback":{"MerchantRequestID":"2959-4156-8013-8a5afda9dfd212392","CheckoutRequestID":"ws_CO_250720250437001703571665","ResultCode":1037,"ResultDesc":"No response from user"}}}
 
+2025-07-25 06:34:18
+{"Body":{"stkCallback":{"MerchantRequestID":"8522-4a83-8da4-fcd45c2a963919444","CheckoutRequestID":"ws_CO_250720250734091726298561","ResultCode":0,"ResultDesc":"The service request is processed successfully","CallbackMetadata":{"Item":[{"Name":"Amount","Value":1},{"Name":"MpesaReceiptNumber","Value":"TGP3EETOIJ"},{"Name":"Balance","Value":"{Amount={CurrencyCode=KES, MinimumAmount=10604500, BasicAmount=106045.00}}"},{"Name":"TransactionDate","Value":20250725073417},{"Name":"PhoneNumber","Value":254726298561}]}}}}
+

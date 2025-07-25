@@ -141,19 +141,12 @@ if (!isset($_SESSION['store_id'])) {
         <th>Transaction ID</th>
         <th>Mpesa Number</th>
         <th>Date</th>
+        <th>Action</th>
       </tr>
     </thead>
   </table>
 </div>
 
-
-
-<!-- Footer fixed bottom -->
-<footer class="footer  mt-auto" style="background-color: #edefe4ff; color: white;">
-  <div class="container py-3">
-    <span class="text-muted">&copy; 2025 Astra Softwares</span>
-  </div>
-</footer>
 
 <!-- jQuery + Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -224,7 +217,25 @@ if (!isset($_SESSION['store_id'])) {
         { data: 'payment_method' },
         { data: 'transaction_id', defaultContent: '-' },
         { data: 'mpesa_number', defaultContent: '-' },
-        { data: 'sale_time' }
+        { data: 'sale_time' },
+        {
+            data: 'sale_id',
+            orderable: false,
+            render: function (data) {
+                return `
+                <a href="./receipts/view_receipt.php?sale_id=${data}" target="_blank" class="btn btn-sm btn-light border-dark me-1">
+                    <i class="bi bi-receipt"></i>
+                </a>
+                <a href="./receipts/download_receipt.php?sale_id=${data}" class="btn btn-sm btn-warning ">
+                    <i class="bi bi-download text-light"></i>
+                </a>
+                <a href="./receipts/print_receipt.php?sale_id=${data}" target="_blank" class="btn btn-sm btn-info">
+                <i class="bi bi-printer text-light"></i>
+                </a>
+                `;
+            }
+            }
+
       ],
       order: [[9, 'desc']],
       dom: 'Bflrtip',
