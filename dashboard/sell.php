@@ -22,6 +22,18 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+
+
+
+  
+<!-- favicons -->
+<link rel="icon" type="image/png" href="../assets/img/favicons/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicons/favicon.svg" />
+<link rel="shortcut icon" href="../assets/img/favicons/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicons/apple-touch-icon.png" />
+<link rel="manifest" href="../assets/img/favicons/site.webmanifest" />
+
+
   <style>
     body {
       background-color: #f5f6fa;
@@ -122,21 +134,21 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
   }
 
 
-  input[type="number"] {
+  input{
     -moz-appearance: textfield;
   }
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+  input::-webkit-inner-spin-button,
+  input::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
 
-  input[type="number"] {
+  input{
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0.375rem;
-    border: 1px solid #ced4da;
+    border: 1px solid #676767ff;
     background-color: #fff;
   }
 
@@ -168,9 +180,10 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #143D60;"> 
   <div class="container">
-    <a class="navbar-brand d-flex flex-column align-items-start" href="#">
-        <span class="fs-5"><?= htmlspecialchars($_SESSION['store_name']); ?></span>
-    </a>
+  <a class="navbar-brand d-flex align-items-start" href="#">
+    <img src="../assets/img/logos/sanya-bg.png" alt="Logo" style="height: 50px; width: auto;">
+  </a>
+
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarIcons">
       <span class="navbar-toggler-icon"></span>
@@ -190,11 +203,16 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="transactions.php">
-            <span class="nav-icon-wrapper"><i class="bi bi-boxes nav-icon"></i></span> Transactions
+            <span class="nav-icon-wrapper"><i class="bi bi-receipt-cutoff nav-icon"></i></span> Transactions
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">
+          <a class="nav-link text-white" href="analytics.php">
+            <span class="nav-icon-wrapper"><i class="bi bi-boxes nav-icon"></i></span> Stock
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="stock_kpis.php">
             <span class="nav-icon-wrapper"><i class="bi bi-bar-chart-line nav-icon"></i></span> Analytics
           </a>
         </li>
@@ -351,27 +369,31 @@ $products = $products_result->get_result()->fetch_all(MYSQLI_ASSOC);
 
 
 
+
 <!-- Mpesa Modal -->
 <div class="modal fade" id="mpesaModal" tabindex="-1" aria-labelledby="mpesaModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form id="mpesaPaymentForm" class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Mpesa Payment</h5>
+  <div class="modal-dialog modal-dialog-centered"> <!-- Center the modal vertically -->
+    <form id="mpesaPaymentForm" class="modal-content shadow rounded-4 border-0 p-3">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold text-success" id="mpesaModalLabel">Mpesa Payment</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      
+      <div class="modal-body pt-1">
         <div class="mb-3">
-          <label for="mpesaNumber" class="form-label">Mpesa Number</label>
-          <input type="text" class="form-control" id="mpesaNumber" name="phone" placeholder="e.g. 254712345678" required>
+          <label for="mpesaNumber" class="form-label fw-semibold">Mpesa Number</label>
+          <input type="text" class="form-control rounded-3" id="mpesaNumber" name="phone" placeholder="e.g. 254712345678" required>
         </div>
         <input type="hidden" id="mpesaTotal" name="amount" value="0.00">
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-success">Confirm Payment</button>
+      
+      <div class="modal-footer border-0 pt-0">
+        <button type="submit" class="btn btn-success w-100 rounded-3 py-2">Confirm Payment</button>
       </div>
     </form>
   </div>
 </div>
+
 
 
 <!-- JavaScript Section -->
@@ -586,6 +608,8 @@ function handlePayment(event) {
         payload.append("mpesa_number", data.phone);
         payload.append("transaction_id", data.receipt);
         payload.append("transaction_status", "Success");
+
+        console.log(payload);
 
         // Step 2: Send to process_sale.php
         fetch("../backend/process_sale.php", {

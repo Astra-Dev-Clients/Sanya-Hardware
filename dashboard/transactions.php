@@ -24,6 +24,18 @@ if (!isset($_SESSION['store_id'])) {
   <!-- Date Range Picker CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+
+  
+<!-- favicons -->
+<link rel="icon" type="image/png" href="../assets/img/favicons/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicons/favicon.svg" />
+<link rel="shortcut icon" href="../assets/img/favicons/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicons/apple-touch-icon.png" />
+<link rel="manifest" href="../assets/img/favicons/site.webmanifest" />
+
+
+
+
   <style>
     .details-control {
         cursor: pointer;
@@ -75,9 +87,10 @@ if (!isset($_SESSION['store_id'])) {
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #143D60;"> 
   <div class="container">
-    <a class="navbar-brand d-flex align-items-start" href="index.php">
-       <i class="bi bi-wrench-adjustable-circle me-2"></i>  <span class="fs-5 fw-bold"><?= htmlspecialchars($_SESSION['store_name']); ?></span>
-    </a>
+  <a class="navbar-brand d-flex align-items-start" href="#">
+    <img src="../assets/img/logos/sanya-bg.png" alt="Logo" style="height: 50px; width: auto;">
+  </a>
+
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarIcons">
       <span class="navbar-toggler-icon"></span>
@@ -97,11 +110,16 @@ if (!isset($_SESSION['store_id'])) {
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="transactions.php">
-            <span class="nav-icon-wrapper"><i class="bi bi-boxes nav-icon"></i></span> Transactions
+            <span class="nav-icon-wrapper"><i class="bi bi-receipt-cutoff nav-icon"></i></span> Transactions
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">
+          <a class="nav-link text-white" href="analytics.php">
+            <span class="nav-icon-wrapper"><i class="bi bi-boxes nav-icon"></i></span> Stock
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="stock_kpis.php">
             <span class="nav-icon-wrapper"><i class="bi bi-bar-chart-line nav-icon"></i></span> Analytics
           </a>
         </li>

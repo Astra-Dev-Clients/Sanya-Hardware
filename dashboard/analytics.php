@@ -46,7 +46,6 @@ $store_id = $_SESSION['store_id'];
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 
 
-
 <!-- favicons -->
 <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="../assets/img/favicons/favicon.svg" />
@@ -55,76 +54,104 @@ $store_id = $_SESSION['store_id'];
 <link rel="manifest" href="../assets/img/favicons/site.webmanifest" />
 
 
-
-
 <script>
-  $(document).ready(function () {
-    $('#productTable').DataTable({
-      dom: "<'row mb-3'<'col-sm-6'l><'col-sm-6 text-end'B>>" +
-           "<'row mb-2'<'col-sm-12'f>>" +
-           "<'row'<'col-sm-12'tr>>" +
-           "<'row mt-3'<'col-sm-5'i><'col-sm-7'p>>",
-      buttons: [
-        {
-          extend: 'copyHtml5',
-          text: '<i class="bi bi-clipboard"></i> Copy',
-          className: 'btn btn-sm btn-outline-dark bg-light text-dark rounded me-1'
-        },
-        {
-          extend: 'excelHtml5',
-          text: '<i class="bi bi-file-earmark-excel"></i> Excel',
-          className: 'btn btn-sm btn-success rounded me-1'
-        },
-        {
-          extend: 'csvHtml5',
-          text: '<i class="bi bi-file-earmark-text"></i> CSV',
-          className: 'btn btn-sm btn-dark rounded me-1'
-        },
-        {
-          extend: 'pdfHtml5',
-          text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
-          className: 'btn btn-sm btn-danger rounded me-1',
-          orientation: 'landscape',
-          pageSize: 'A4',
-          customize: function (doc) {
-            doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-            doc.content[1].table.headerRows = 1;
-            doc.content[1].table.body.forEach(function (row, index) {
-              if (index === 0) {
-                row.forEach(function (cell) {
-                  cell.fillColor = '#143D60';
-                  cell.color = 'white';
-                });
-              }
-            });
-          }
-        },
-        {
-          extend: 'print',
-          text: '<i class="bi bi-printer"></i> Print',
-          className: 'btn btn-sm btn-secondary rounded me-1'
-        }
-      ],
-      language: {
-        emptyTable: "No products available. Click '+ Add Product' to get started.",
-        search: "Search:"
+$(document).ready(function () {
+  const table = $('#productTable').DataTable({
+    dom: "<'row mb-3'<'col-sm-6'l><'col-sm-6 text-end'B>>" +
+         "<'row mb-2'<'col-sm-12'f>>" +
+         "<'row'<'col-sm-12'tr>>" +
+         "<'row mt-3'<'col-sm-5'i><'col-sm-7'p>>",
+    buttons: [
+      {
+        extend: 'copyHtml5',
+        text: '<i class="bi bi-clipboard"></i> Copy',
+        className: 'btn btn-sm btn-outline-dark bg-light text-dark rounded me-1'
       },
-      lengthMenu: [
-        [5, 10, 25, 50, 100, -1],
-        [5, 10, 25, 50, 100, "All"]
-      ],
-      pageLength: 10,
-      responsive: true
-    });
+      {
+        extend: 'excelHtml5',
+        text: '<i class="bi bi-file-earmark-excel"></i> Excel',
+        className: 'btn btn-sm btn-success rounded me-1'
+      },
+      {
+        extend: 'csvHtml5',
+        text: '<i class="bi bi-file-earmark-text"></i> CSV',
+        className: 'btn btn-sm btn-dark rounded me-1'
+      },
+      {
+        extend: 'pdfHtml5',
+        text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
+        className: 'btn btn-sm btn-danger rounded me-1',
+        orientation: 'landscape',
+        pageSize: 'A4',
+        customize: function (doc) {
+          doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+          doc.content[1].table.headerRows = 1;
+          doc.content[1].table.body.forEach(function (row, index) {
+            if (index === 0) {
+              row.forEach(function (cell) {
+                cell.fillColor = '#143D60';
+                cell.color = 'white';
+              });
+            }
+          });
+        }
+      },
+      {
+        extend: 'print',
+        text: '<i class="bi bi-printer"></i> Print',
+        className: 'btn btn-sm btn-secondary rounded me-1'
+      }
+    ],
+    language: {
+      emptyTable: "No products available. Click '+ Add Product' to get started.",
+      search: "Search:"
+    },
+    lengthMenu: [
+      [5, 10, 25, 50, 100, -1],
+      [5, 10, 25, 50, 100, "All"]
+    ],
+    pageLength: 10,
+    initComplete: function () {
+      const api = this.api();
+
+      // CATEGORY filter (index 2)
+      api.columns(2).every(function () {
+        const column = this;
+        const select = $('#categoryFilter');
+
+        column.data().unique().sort().each(function (d) {
+          if (d) select.append(`<option value="${d}">${d}</option>`);
+        });
+
+        select.on('change', function () {
+          const val = $.fn.dataTable.util.escapeRegex($(this).val());
+          column.search(val ? '^' + val + '$' : '', true, false).draw();
+        });
+      });
+
+      // QUANTITY filter (index 6)
+      api.columns(6).every(function () {
+        const column = this;
+        const select = $('#quantityFilter');
+
+        column.data().unique().sort((a, b) => a - b).each(function (d) {
+          if (d) select.append(`<option value="${d}">${d}</option>`);
+        });
+
+        select.on('change', function () {
+          const val = $(this).val();
+          column.search(val ? '^' + val + '$' : '', true, false).draw();
+        });
+      });
+    }
   });
+});
 </script>
 
 
 
 
    <style>
-
-
      .nav-icon { font-size: 1.8rem; }
     .navbar-brand small { font-size: 0.75rem; font-weight: 500; margin-top: -6px; }
     .nav-link { display: flex; flex-direction: column; align-items: center; padding: 0.5rem 0.75rem; }
@@ -159,11 +186,9 @@ $store_id = $_SESSION['store_id'];
     color: white;
   }
 
-
   .navbar-nav .nav-item {
     margin-left: 10px;
   }
-
 
 </style>
 </head>
@@ -212,7 +237,7 @@ $store_id = $_SESSION['store_id'];
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link text-white" href="index.php">
-            <span class="nav-icon-wrapper"><i class="bi bi-house nav-icon nav-active"></i></span> Home
+            <span class="nav-icon-wrapper"><i class="bi bi-house nav-icon"></i></span> Home
           </a>
         </li>
         <li class="nav-item">
@@ -256,12 +281,12 @@ $store_id = $_SESSION['store_id'];
 
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="fw-bold">Product Inventory</h2>
-    <button class="btn" style="background-color: #143D60; color: white;" data-bs-toggle="modal" data-bs-target="#addProductModal"> <i class="bi bi-plus-circle"></i> Add Product</button>
+    <h2 class="fw-bold">Stock Anarlytics</h2>
+    <button class="btn" style="background-color: #143D60; color: white;" data-bs-toggle="modal" data-bs-target="#addProductModal"> <i class="bi bi-plus-circle"></i> Add Stock</button>
   </div>
 
   <table id="productTable" class="table table-striped table-bordered text-center">
-    <thead class="table-dark">
+    <thead class="table-primary">
       <tr>
         <th>SN</th>
         <th>Product Name</th>
@@ -272,6 +297,17 @@ $store_id = $_SESSION['store_id'];
         <th>Quantity</th>
         <th>Created At</th>
         <th>Actions</th>
+      </tr>
+      <tr id="filterRow" >
+        <th></th>
+        <th></th>
+        <th><select id="categoryFilter" class="form-select form-select-sm"><option value="">All</option></select></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th><select id="quantityFilter" class="form-select form-select-sm"><option value="">All</option></select></th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -308,7 +344,6 @@ $store_id = $_SESSION['store_id'];
         >
        <i class="bi bi-eye"></i>
         </button>
-
 
         <button class="btn btn-sm btn-info text-white"
                 data-bs-toggle="modal" data-bs-target="#editProductModal"

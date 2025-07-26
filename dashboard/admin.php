@@ -2,10 +2,10 @@
 session_start();
 require '../database/db.php';
 
-if (!isset($_SESSION['astra_id'])) {
-    header("Location: ../auth/astra/index.php");
-    exit();
-}
+// if (!isset($_SESSION['astra_id'])) {
+//     header("Location: ../auth/astra/index.php");
+//     exit();
+// }
 
 ?>
 

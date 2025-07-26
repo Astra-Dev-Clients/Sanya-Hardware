@@ -4,3 +4,51 @@
 2025-07-25 16:42:40
 {"Body":{"stkCallback":{"MerchantRequestID":"1472-4fc0-8bdd-8b91ee9495494469","CheckoutRequestID":"ws_CO_250720251742324726298561","ResultCode":0,"ResultDesc":"The service request is processed successfully","CallbackMetadata":{"Item":[{"Name":"Amount","Value":1},{"Name":"MpesaReceiptNumber","Value":"TGP2H2LM00"},{"Name":"Balance","Value":"{Amount={CurrencyCode=KES, MinimumAmount=10641600, BasicAmount=106416.00}}"},{"Name":"TransactionDate","Value":20250725174240},{"Name":"PhoneNumber","Value":254726298561}]}}}}
 
+2025-07-25 19:14:49
+{"Body":{"stkCallback":{"MerchantRequestID":"c16b-44bc-b008-63519d1750324016","CheckoutRequestID":"ws_CO_250720252014414726298561","ResultCode":1032,"ResultDesc":"Request Cancelled by user"}}}
+
+2025-07-25 19:20:50
+{"Body":{"stkCallback":{"MerchantRequestID":"1472-4fc0-8bdd-8b91ee9495495886","CheckoutRequestID":"ws_CO_250720252020420726298561","ResultCode":1032,"ResultDesc":"Request Cancelled by user"}}}
+
+2025-07-25 19:39:50
+{"Body":{"stkCallback":{"MerchantRequestID":"c16b-44bc-b008-63519d1750324271","CheckoutRequestID":"ws_CO_250720252039245726298561","ResultCode":1037,"ResultDesc":"No response from user"}}}
+
+2025-07-25 19:45:40
+{"Body":{"stkCallback":{"MerchantRequestID":"8a62-4761-a7cb-a3b488870e038384","CheckoutRequestID":"ws_CO_250720252045147748626079","ResultCode":1037,"ResultDesc":"No response from user"}}}
+
+2025-07-25 19:47:58
+{"Body":{"stkCallback":{"MerchantRequestID":"8a62-4761-a7cb-a3b488870e038400","CheckoutRequestID":"ws_CO_250720252047356748626079","ResultCode":1032,"ResultDesc":"Request Cancelled by user"}}}
+
+2025-07-25 19:48:51
+{"Body":{"stkCallback":{"MerchantRequestID":"8a62-4761-a7cb-a3b488870e038412","CheckoutRequestID":"ws_CO_250720252048351748626079","ResultCode":2001,"ResultDesc":"The initiator information is invalid."}}}
+
+2025-07-25 19:49:21
+{"Body":{"stkCallback":{"MerchantRequestID":"1472-4fc0-8bdd-8b91ee9495496105","CheckoutRequestID":"ws_CO_250720252049120748626079","ResultCode":0,"ResultDesc":"The service request is processed successfully","CallbackMetadata":{"Item":[{"Name":"Amount","Value":1},{"Name":"MpesaReceiptNumber","Value":"TGP2IDW4ZK"},{"Name":"Balance","Value":"{Amount={CurrencyCode=KES, MinimumAmount=10631900, BasicAmount=106319.00}}"},{"Name":"TransactionDate","Value":20250725204920},{"Name":"PhoneNumber","Value":254748626079}]}}}}
+
+2025-07-25 20:49:21
+{"Body":{"stkCallback":{"MerchantRequestID":"8362-45a2-894d-3634011046216708","CheckoutRequestID":"ws_CO_250720252149066726298561","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-25 20:52:02
+{"Body":{"stkCallback":{"MerchantRequestID":"8a62-4761-a7cb-a3b488870e039180","CheckoutRequestID":"ws_CO_250720252152018726298561","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-25 20:52:13
+{"Body":{"stkCallback":{"MerchantRequestID":"1472-4fc0-8bdd-8b91ee9495496624","CheckoutRequestID":"ws_CO_250720252152016726298561","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-25 20:52:19
+{"Body":{"stkCallback":{"MerchantRequestID":"8a62-4761-a7cb-a3b488870e039190","CheckoutRequestID":"ws_CO_250720252152190726298561","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-25 21:09:59
+{"Body":{"stkCallback":{"MerchantRequestID":"8362-45a2-894d-3634011046216946","CheckoutRequestID":"ws_CO_250720252209443726298561","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-25 21:12:17
+{"Body":{"stkCallback":{"MerchantRequestID":"8a62-4761-a7cb-a3b488870e039412","CheckoutRequestID":"ws_CO_250720252212026726298561","ResultCode":1,"ResultDesc":"The balance is insufficient for the transaction."}}}
+
+2025-07-25 21:13:33
+{"Body":{"stkCallback":{"MerchantRequestID":"1472-4fc0-8bdd-8b91ee9495496881","CheckoutRequestID":"ws_CO_250720252213219726298561","ResultCode":0,"ResultDesc":"The service request is processed successfully","CallbackMetadata":{"Item":[{"Name":"Amount","Value":1},{"Name":"MpesaReceiptNumber","Value":"TGP0IS0CTI"},{"Name":"Balance","Value":"{Amount={CurrencyCode=KES, MinimumAmount=10632700, BasicAmount=106327.00}}"},{"Name":"TransactionDate","Value":20250725221332},{"Name":"PhoneNumber","Value":254726298561}]}}}}
+
+2025-07-26 10:19:25
+{"Body":{"stkCallback":{"MerchantRequestID":"e02b-436e-9773-c97354f3811f5248","CheckoutRequestID":"ws_CO_260720251119098726298561","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached"}}}
+
+2025-07-26 10:20:38
+{"Body":{"stkCallback":{"MerchantRequestID":"e02b-436e-9773-c97354f3811f5257","CheckoutRequestID":"ws_CO_260720251120342726298561","ResultCode":1032,"ResultDesc":"Request Cancelled by user"}}}
+

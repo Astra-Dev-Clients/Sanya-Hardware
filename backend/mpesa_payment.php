@@ -1,4 +1,8 @@
 <?php
+
+
+
+
 // Enable error reporting (disable in production)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -19,6 +23,8 @@ $dotenv->load();
 // Step 1: Receive and parse JSON input
 $input = json_decode(file_get_contents("php://input"), true);
 
+// 
+
 // Validate input
 if (!isset($input['grand_total']) || !isset($input['mpesa_number'])) {
     http_response_code(400);
@@ -33,12 +39,14 @@ $amount = $input['grand_total'];
 $phone = $input['mpesa_number'];
 
 
+
 // Format phone number
 if (preg_match('/^0/', $phone)) {
     $phone = preg_replace('/^0/', '254', $phone);
 } elseif (preg_match('/^\+254/', $phone)) {
     $phone = preg_replace('/^\+/', '', $phone);
 }
+
 
 // Step 2: Load credentials
 $consumerKey        = $_ENV['MPESA_CONSUMER_KEY'];
@@ -48,7 +56,7 @@ $Passkey            = $_ENV['MPESA_PASSKEY'];
 $PartyA             = $phone;
 $AccountReference   = "TestAccount";
 $TransactionDesc    = "Payment";
-$CallbackURL        = "https://de46bf65f49b.ngrok-free.app/clients/sanya/backend/mpesa_callback.php";
+$CallbackURL        = "https://d6f4ef107249.ngrok-free.app/clients/sanya/backend/mpesa_callback.php";
 
 // Step 3: Generate access token
 $credentials = base64_encode("$consumerKey:$consumerSecret");
