@@ -9,7 +9,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Blogs | Boldo Agency Template</title>
+    <title>Blogs | Astra Prime</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
@@ -39,12 +39,12 @@
     <!-- ===============================================-->
     <main class="main" id="top">
       <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" data-navbar-on-scroll="data-navbar-on-scroll">
-        <div class="container"><a class="navbar-brand" href="index.html"><img src="assets/img/Logo.png" alt="" /></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa-solid fa-bars text-white fs-3"></i></button>
+        <div class="container"><a class="navbar-brand" style="font-size: 28px; display: flex; align-items: baseline; justify-content: center; color: aliceblue;" href="index.php"><img src="assets/img/logos/prime-2.png" style="width: 30px; height: auto; " alt="" />stra Prime</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa-solid fa-bars text-white fs-3"></i></button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-              <li class="nav-item"><a class="nav-link" aria-current="page" href="index.html">Home</a></li>
-              <li class="nav-item"><a class="nav-link" aria-current="page" href="about.html">About</a></li>
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="blogs.html">Blogs</a></li>
+              <li class="nav-item"><a class="nav-link" aria-current="page" href="index.php">Home</a></li>
+              <li class="nav-item"><a class="nav-link" aria-current="page" href="about.php">About</a></li>
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="blogs.php">Blogs</a></li>
               <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100" aria-current="page" href="#">Log In</a></li>
             </ul>
           </div>
@@ -206,7 +206,7 @@
     <section class="pt-0">
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col-lg-6 col-sm-12"><a href="index.html"><img class="img-fluid mt-5 mb-4" src="assets/img/black-logo.png" alt="" /></a>
+          <div class="col-lg-6 col-sm-12"><a href="index.php"><img class="img-fluid mt-5 mb-4" src="assets/img/black-logo.png" alt="" /></a>
             <p class="w-lg-75 text-gray">Social media validation business model canvas graphical user interface launch party creative facebook iPad twitter.</p>
           </div>
           <div class="col-lg-2 col-sm-4">

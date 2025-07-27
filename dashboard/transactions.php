@@ -124,7 +124,7 @@ if (!isset($_SESSION['store_id'])) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">
+          <a class="nav-link text-white" href="settings.php">
             <span class="nav-icon-wrapper"><i class="bi bi-gear nav-icon"></i></span> Settings
           </a>
         </li>

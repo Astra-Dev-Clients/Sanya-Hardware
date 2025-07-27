@@ -236,7 +236,7 @@ $store_id = $_SESSION['store_id'];
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">
+          <a class="nav-link text-white" href="settings.php">
             <span class="nav-icon-wrapper"><i class="bi bi-gear nav-icon"></i></span> Settings
           </a>
         </li>
@@ -252,11 +252,13 @@ $store_id = $_SESSION['store_id'];
 
 
 
+
+
 <!-- Main Content -->
 
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="fw-bold">Product Inventory</h2>
+    <h2 class="fw-bold">Product Inventory </h2>
     <button class="btn" style="background-color: #143D60; color: white;" data-bs-toggle="modal" data-bs-target="#addProductModal"> <i class="bi bi-plus-circle"></i> Add Product</button>
   </div>
 

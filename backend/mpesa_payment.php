@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['store_id'])) {
+    header("Location: ../../auth/index.php");
+    exit();
+}
 
 
 
@@ -40,6 +44,7 @@ $phone = $input['mpesa_number'];
 
 
 
+
 // Format phone number
 if (preg_match('/^0/', $phone)) {
     $phone = preg_replace('/^0/', '254', $phone);
@@ -56,7 +61,7 @@ $Passkey            = $_ENV['MPESA_PASSKEY'];
 $PartyA             = $phone;
 $AccountReference   = "TestAccount";
 $TransactionDesc    = "Payment";
-$CallbackURL        = "https://d6f4ef107249.ngrok-free.app/clients/sanya/backend/mpesa_callback.php";
+$CallbackURL        = "https://16ca239bf982.ngrok-free.app/clients/sanya/backend/mpesa_callback.php";
 
 // Step 3: Generate access token
 $credentials = base64_encode("$consumerKey:$consumerSecret");

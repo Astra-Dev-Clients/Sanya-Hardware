@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['store_id'])) {
+    header("Location: ../../auth/index.php");
+    exit();
+}
+
 require '../../database/db.php';
 $sale_id = $_GET['sale_id'] ?? 0;
 
@@ -123,8 +129,9 @@ $items = $items_stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 <body>
   <div class="receipt" style="border: 1px dotted black; margin-top:20px;">
     <div class="header">
-      <i class="bi bi-tools"></i>
-      <h4>Sanya Hardwares</h4>
+      <!-- <i class="bi bi-tools"></i> -->
+      <img src="../../assets/img/logos/sanya-bg.png" style="width:37px; height:auto; filter:brightness(0%);" alt="" srcset="">
+      <h4 style="text-transform:capitalize;"><?= htmlspecialchars($_SESSION['store_name']); ?></h4>
       <small>Reliable Building Solutions</small>
     </div>
 
@@ -165,6 +172,8 @@ $items = $items_stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     <div class="footer">
       <p>Thank you for shopping at Sanya Hardware!</p>
       <p>Returns accepted within 7 days with receipt.</p>
+
+       <h2 style="font-family: monospace;">Karibu Tena!</h2>
     </div>
   </div>
 
